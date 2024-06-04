@@ -1,0 +1,2 @@
+json_key_file("/Users/fiaz/Documents/keystore/duende-425200-ab404bcd3f96.json") # Path to the json secret file - Follow https://docs.fastlane.tools/actions/supply/#setup to get one
+package_name("com.devindo.bubble_grow") # e.g. com.krausefx.app

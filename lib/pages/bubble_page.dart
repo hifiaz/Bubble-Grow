@@ -136,10 +136,6 @@ class BubblePageState extends State<BubblePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (kDebugMode) {
-      print('running');
-    }
-
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -157,11 +153,18 @@ class BubblePageState extends State<BubblePage> {
                     alignment: Alignment.centerRight,
                     child: IconButton(
                       onPressed: () {
-                        if (isPlaying) {
+                        if (!isPlaying) {
                           playBackgroundMusic();
                         } else {
                           stopBackgroundMusic();
                         }
+                        setState(() {
+                          isPlaying = !isPlaying;
+                        });
+                        final snackBar = SnackBar(
+                          content: Text('Music ${isPlaying ? 'ON' : 'OFF'}'),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       },
                       icon: Icon(
                         isPlaying
