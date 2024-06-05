@@ -11,6 +11,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:signals/signals_flutter.dart';
+
+final backgroundMusic = signal(true);
 
 class BubblePage extends StatefulWidget {
   static String id = 'game_screen';
@@ -59,9 +62,6 @@ class BubblePageState extends State<BubblePage> {
     _loadInterstitialAd();
     loadLevelFuture = _loadLevel();
     _loadGame();
-    if (isPlaying) {
-      playBackgroundMusic();
-    }
   }
 
   void playBackgroundMusic() async {
@@ -79,6 +79,9 @@ class BubblePageState extends State<BubblePage> {
   }
 
   void _loadGame() {
+    if (backgroundMusic.value) {
+      playBackgroundMusic();
+    }
     rule = kRules.keys.elementAt(random.nextInt(3));
     ruleColorName = colours.keys.elementAt(random.nextInt(colours.length));
     ruleNumber = 1 + random.nextInt(6 - 1); // to ensure non-zero number always
@@ -128,14 +131,11 @@ class BubblePageState extends State<BubblePage> {
         correctMove = true;
       });
     }
-
-//    colours.values.forEach((element) {
-//      print(element.count);
-//    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final music = backgroundMusic.watch(context);
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -153,21 +153,19 @@ class BubblePageState extends State<BubblePage> {
                     alignment: Alignment.centerRight,
                     child: IconButton(
                       onPressed: () {
-                        if (!isPlaying) {
+                        backgroundMusic.value = !music;
+                        if (backgroundMusic.watch(context)) {
                           playBackgroundMusic();
                         } else {
                           stopBackgroundMusic();
                         }
-                        setState(() {
-                          isPlaying = !isPlaying;
-                        });
                         final snackBar = SnackBar(
-                          content: Text('Music ${isPlaying ? 'ON' : 'OFF'}'),
+                          content: Text('Music ${!music ? 'ON' : 'OFF'}'),
                         );
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       },
                       icon: Icon(
-                        isPlaying
+                        music
                             ? Icons.music_note_sharp
                             : Icons.music_off_outlined,
                         color: Colors.black,
@@ -280,14 +278,17 @@ class BubblePageState extends State<BubblePage> {
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  width: AdSize.banner.width.toDouble(),
-                  height: AdSize.banner.height.toDouble(),
-                  child: _bannerAd == null
-                      // Nothing to render yet.
-                      ? const SizedBox()
-                      // The actual ad.
-                      : AdWidget(ad: _bannerAd!),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 40.0),
+                  child: SizedBox(
+                    width: AdSize.banner.width.toDouble(),
+                    height: AdSize.banner.height.toDouble(),
+                    child: _bannerAd == null
+                        // Nothing to render yet.
+                        ? const SizedBox()
+                        // The actual ad.
+                        : AdWidget(ad: _bannerAd!),
+                  ),
                 ),
               ),
             ],
@@ -421,6 +422,7 @@ class BubblePageState extends State<BubblePage> {
     colours.clear();
     bubbles.clear();
     _bannerAd?.dispose();
+    playerBackground.dispose();
     super.dispose();
   }
 }
