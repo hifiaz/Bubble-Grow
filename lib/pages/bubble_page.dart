@@ -65,7 +65,7 @@ class BubblePageState extends State<BubblePage> {
   }
 
   void playBackgroundMusic() async {
-    await playerBackground.play(AssetSource('pixel_dream.mp3'));
+    await playerBackground.play(AssetSource('Mr_Smith-Sonorus.mp3'));
     await playerBackground.setReleaseMode(ReleaseMode.loop);
   }
 
@@ -423,6 +423,7 @@ class BubblePageState extends State<BubblePage> {
     bubbles.clear();
     _bannerAd?.dispose();
     playerBackground.dispose();
+    playerBackground.stop();
     super.dispose();
   }
 }

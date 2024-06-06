@@ -5,12 +5,12 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000216">
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000236">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: Switch to android build lane" time="0.000266">
+      <testcase classname="fastlane.lanes" name="1: Switch to android build lane" time="8.1e-05">
         
       </testcase>
     
@@ -20,12 +20,12 @@
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="3: cd /Users/fiaz/Documents/dev/2024/bubble_grow &amp;&amp; flutter build appbundle --dart-define-from-file=.env/prod.json --release" time="36.44149">
+      <testcase classname="fastlane.lanes" name="3: cd /Users/fiaz/Documents/dev/2024/bubble_grow &amp;&amp; flutter build appbundle --dart-define-from-file=.env/prod.json --release" time="57.107482">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="4: upload_to_play_store" time="51.335992">
+      <testcase classname="fastlane.lanes" name="4: upload_to_play_store" time="44.451177">
         
       </testcase>
     
